@@ -337,6 +337,7 @@ td a:hover {
 }
 .update-container {
     max-width: 600px;
+    width: 98%;
     margin: 0 auto;
     background-color: #0C2B4E;
     padding: 1rem;
