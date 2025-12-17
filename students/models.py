@@ -3,7 +3,7 @@ from django.db import models
 class Student(models.Model):
     registration_number = models.CharField(max_length=50, unique=True, verbose_name="Namba ya Usajili")
     full_name = models.CharField(max_length=255, unique=True, verbose_name="Jina Kamili")
-    phone_number = models.CharField(max_length=15, blank=True, null=True, verbose_name="Namba ya Simu")
+    phone_number = models.CharField(max_length=15, null=True, verbose_name="Namba ya Simu")
     is_registered = models.BooleanField(default=False)
 
     def __str__(self):
