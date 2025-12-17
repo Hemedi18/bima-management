@@ -1,0 +1,67 @@
+{% extends 'students/base.html' %}
+
+{% block extra_head %}
+<style>
+    input[type="text"], input[type="password"] {
+        width: 100%; 
+        padding: 10px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+    .password-toggle {
+        cursor: pointer;
+        margin-left: -30px;
+        position: relative;
+        top: 2px;
+    }
+    .login-form .button {
+        width: 100%; /* Make login button full width */
+    }
+</style>
+{% endblock %}
+{% block title %}Admin Login{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 500px; margin-top: 3rem;">
+    <h2>Admin Login</h2>
+    <p>Please enter your credentials to access the dashboard.</p>
+
+    {% if form.errors %}
+        <p style="color: red;">Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    <form method="post" action="{% url 'login' %}" class="login-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_username">Username:</label>
+            <input type="text" name="username" id="id_username" required>
+        </div>
+        <div class="form-group">
+            <label for="id_password">Password:</label>
+            <div class="password-wrapper">
+                <input type="password" name="password" id="id_password" required>
+                <span class="password-toggle" id="togglePassword">👁️</span>
+            </div>
+        </div>
+        <button type="submit" class="button">Login</button>
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#id_password');
+
+        togglePassword.addEventListener('click', function (e) {
+            // toggle the type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            
+            // toggle the eye icon
+            this.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+    });
+</script>
+
+{% endblock %}

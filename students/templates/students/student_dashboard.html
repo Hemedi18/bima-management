@@ -1,0 +1,57 @@
+{% extends 'students/base.html' %}
+
+{% block extra_head %}
+
+{% endblock %}
+{% block title %}students list{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header-actions">
+        <div class="stats">
+            <h2>Registration Statistics</h2>
+            <p>Total: <strong>{{ total_students }}</strong></p>
+            <p>Complete: <strong>{{ registered_count }}</strong></p>
+            <p>Incomplete: <strong>{{ unregistered_count }}</strong></p>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>All Students (Admin View)</h2>
+    <div class="filters">
+        <a href="{% url 'student_dashboard' %}" class="button {% if not filter_by %}active{% endif %}">All</a>
+        <a href="?filter=registered" class="button {% if filter_by == 'registered' %}active{% endif %}">Complete</a>
+        <a href="?filter=unregistered" class="button {% if filter_by == 'unregistered' %}active{% endif %}">Incomplete</a>
+    </div>
+
+    <div class="student-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>registration number</th>
+                    <th>full name</th>
+                    <th>phone number</th>
+                    <th>status</th>
+                    <th>action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.registration_number }}</td>
+                    <td>{{ student.full_name }}</td>
+                    <td>{{ student.phone_number|default:"--" }}</td>
+                    <td>{% if student.is_registered %}<span style="color: green;">Complete</span>{% else %}<span style="color: red;">Incomplete</span>{% endif %}</td>
+                    <td><a href="{% url 'student_update' pk=student.pk %}">update</a></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">no students found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

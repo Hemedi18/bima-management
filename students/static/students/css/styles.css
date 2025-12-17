@@ -1,0 +1,464 @@
+/* General Body Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #F4F4F4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #0C2B4E;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+}
+
+header h1 {
+    margin: 0;
+    font-size: .001rem;
+    font-weight: 600;
+    animation: fadeInDown 1s;
+}
+
+/* Navigation Bar */
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+nav li {
+    margin-left: 1rem;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    white-space: nowrap; /* Prevents link text from wrapping */
+}
+
+nav a:hover {
+    background-color: #ffffff;
+    color: #0C2B4E;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for the logout button to look like a nav link */
+.nav-logout-button {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+.nav-logout-button:hover {
+    background-color: #ffffff;
+    color: #0C2B4E;
+}
+/* Style for the currently active page link */
+nav a.active {
+    background-color: #ffffff;
+    color: #0C2B4E;
+    font-weight: 700;
+}
+
+/* Navigation Search Form */
+.nav-search {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 0 0.2rem;
+}
+
+.nav-search input[type="text"] {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 0.5rem 0.8rem;
+    width: 150px; /* Default width */
+    transition: width 0.4s ease-in-out;
+}
+
+.nav-search input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.nav-search input[type="text"]:focus {
+    width: 250px; /* Expand on focus */
+    outline: none;
+}
+
+.nav-search button {
+    background: #ffffff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0.4rem;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    color: #005b96;
+}
+
+/* Main Content */
+main {
+    flex: 1;
+    padding: 1rem;
+}
+
+.container {
+    max-width: 1400px; /* Add a max-width to prevent it from being too wide on very large screens */
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    box-sizing: border-box; /* Ensures padding is included in the width */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 1s;
+}
+
+/* Typography */
+h2 {
+    color: #1D546C;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #1D546C;
+    padding-bottom: 0.5rem;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+/* Forms */
+form {
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #555;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #1D546C;
+    outline: none;
+    box-shadow: 0 0 5px rgba(29, 84, 108, 0.3);
+}
+
+/* Buttons */
+button, .button, input[type="submit"] {
+    display: inline-block;
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover, .button:hover, input[type="submit"]:hover {
+    background-color: #1A3D64;
+    transform: translateY(-2px);
+}
+
+/* Student List Page */
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.stats {
+    background: #eef5f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 5px solid #1D546C;
+}
+
+.filters {
+    margin: 1.5rem 0;
+}
+
+.filters a { 
+    margin-right: 1rem;
+    text-decoration: none;
+    color: #1D546C;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.filters a.active, .filters a:hover {
+    background-color: #1D546C;
+    color: white;
+}
+
+/* Student Table */
+.student-table {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+thead {
+    background-color: #1A3D64;
+    color: white;
+}
+
+th, td {
+    padding: 0.8rem;
+    text-align: left;
+    font-size: 0.9rem; /* Reduced font size for the table */
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+tbody tr {
+    transition: background-color 0.3s;
+}
+
+td a {
+    color: #1D546C;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+/* Student Update Page */
+.student-details {
+    background: #eef5f9;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border-left: 5px solid #1D546C;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #1D546C;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* Status indicators for registration */
+.status-registered, .status-unregistered {
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.status-registered { background-color: #28a745; }
+.status-unregistered { background-color: #dc3545; }
+
+/* Messages/Alerts */
+.messages {
+    padding: 0 1rem;
+    max-width: 960px;
+    margin: 1rem auto 0;
+}
+
+.alert {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+    animation: fadeIn 0.5s;
+}
+
+.alert-success { background-color: #28a745; }
+.alert-error { background-color: #dc3545; }
+.alert-warning { background-color: #ffc107; color: #333; }
+.alert-info { background-color: #17a2b8; }
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background-color: #0C2B4E;
+    color: #f8f9fa;
+    margin-top: auto;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        align-items: center;
+        padding: 0 1rem; /* Ondoa padding ya juu na chini */
+    }
+
+    header h1 {
+        margin-bottom: 0.5rem;
+    }
+
+    nav {
+        width: 100%;
+        overflow-x: auto; /* Enables horizontal scrolling */
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+        padding: 1rem 0; /* Ongeza padding hapa ili viungo visigusane na kingo */
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .container {
+        margin: 0;
+        padding: 1.5rem;
+    }
+
+    .nav-search input[type="text"]:focus {
+        width: 180px; /* Adjust focus width for mobile */
+    }
+
+    nav ul {
+        justify-content: flex-start;
+    }
+
+    nav::-webkit-scrollbar {
+        display: none; /* Hides scrollbar for Chrome, Safari, and Opera */
+    }
+
+    .header-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-action {
+        text-align: center;
+    }
+
+    .search-action .button {
+        width: 100%;
+    }
+
+    /* Responsive Table - Stacking Layout */
+    .student-table table {
+        border: 0;
+    }
+
+    .student-table thead {
+        display: none; /* Hide table headers */
+    }
+
+    .student-table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .student-table td {
+        display: block;
+        text-align: right; /* Align content to the right */
+        padding-left: 50%; /* Create space for the label */
+        position: relative;
+        border-bottom: 1px solid #eee;
+    }
+
+    .student-table td::before {
+        content: attr(data-label); /* Use data-label for the pseudo-element */
+        position: absolute;
+        left: 10px;
+        font-weight: bold;
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .filters a {
+        display: block;
+        margin-bottom: 0.5rem;
+        text-align: center;
+    }
+}

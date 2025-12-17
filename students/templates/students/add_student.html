@@ -1,0 +1,17 @@
+{% extends 'students/base.html' %}
+
+{% block title %}register {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Register as a New Student</h2>
+    <p>Please fill out this form to be added to the system.</p>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">Register</button>
+    </form>
+    <a href="{% url 'student_login' %}" class="back-link">Already have an account? Log in here</a>
+</div>
+{% endblock %}

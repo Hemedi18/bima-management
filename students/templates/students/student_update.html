@@ -1,0 +1,40 @@
+{% extends 'students/base.html' %}
+
+{% block title %}Weka Namba ya Simu{% endblock %}
+{% block extra_head %}
+<style>
+    .update-container {
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container update-container">
+    <h2>wellcome, {{ student.full_name }}</h2>
+    <p>here you can update your phone number.</p>
+
+    <div class="student-details">
+        <p><strong>Full Name:</strong> {{ student.full_name }}</p>
+        <p><strong>Registration Number:</strong> {{ student.registration_number }}</p>
+        <p><strong>Registration Status:</strong> {% if student.is_registered %} <span style="color: #28a745; font-weight: bold;">Registered</span> {% else %} <span style="color: #dc3545; font-weight: bold;">Not Registered</span> {% endif %}</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.phone_number.label_tag }}
+            {{ form.phone_number }}
+            {% if form.phone_number.errors %}
+                <div class="errors">{{ form.phone_number.errors }}</div>
+            {% endif %}
+        </div>
+        <button type="submit">Save Changes</button>
+    </form>
+    <a href="{% url 'student_login' %}" class="back-link">Search Another</a>
+</div>
+{% endblock %}
