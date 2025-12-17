@@ -174,11 +174,12 @@ form {
     color: #555;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="password"] {
     width: 100%;
     padding: 0.8rem;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 8px;
     box-sizing: border-box;
     transition: border-color 0.3s;
 }
@@ -188,6 +189,21 @@ input[type="text"]:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(29, 84, 108, 0.3);
 }
+
+/* Password input container */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #888;
+}
+
 
 /* Buttons */
 button, .button, input[type="submit"] {
