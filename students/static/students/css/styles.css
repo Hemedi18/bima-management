@@ -2,8 +2,8 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6;
-    background-color: #F4F4F4;
-    color: #333;
+    background-color: #001b1a;
+    color: #e0dddd;
     margin: 0;
     padding: 0;
     display: flex;
@@ -16,7 +16,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: #0C2B4E;
+    background-color: #2f0050;
     color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -41,6 +41,7 @@ nav ul {
     padding: 0;
     list-style: none;
     display: flex;
+    align-items: center; /* Vertically align nav items */
 }
 
 nav li {
@@ -62,6 +63,7 @@ nav a {
 nav a:hover {
     background-color: #ffffff;
     color: #0C2B4E;
+    border-color: #C66DAA;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -102,14 +104,14 @@ nav a.active {
 .nav-search input[type="text"] {
     background: transparent;
     border: none;
-    color: white;
+    color: rgb(141, 138, 138);
     padding: 0.5rem 0.8rem;
     width: 150px; /* Default width */
     transition: width 0.4s ease-in-out;
 }
 
 .nav-search input[type="text"]::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(214, 205, 205, 0.7);
 }
 
 .nav-search input[type="text"]:focus {
@@ -139,7 +141,7 @@ main {
     max-width: 1400px; /* Add a max-width to prevent it from being too wide on very large screens */
     margin: 2rem auto;
     padding: 2rem;
-    background: #ffffff;
+    background: #1d0042;
     box-sizing: border-box; /* Ensures padding is included in the width */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -171,7 +173,7 @@ form {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: #555;
+    color: #f0f0f0; /* Changed label color to be light */
 }
 
 input[type="text"],
@@ -181,7 +183,9 @@ input[type="password"] {
     border: 1px solid #ccc;
     border-radius: 8px;
     box-sizing: border-box;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, background-color 0.3s; /* Added transition for background */
+    background-color: #3f353d; /* Darker background for inputs */
+    color: #ffffff; /* White text for inputs */
 }
 
 input[type="text"]:focus {
@@ -224,6 +228,17 @@ button:hover, .button:hover, input[type="submit"]:hover {
     background-color: #1A3D64;
     transform: translateY(-2px);
 }
+.form-control {
+    background-color: #3f353d;
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+
 
 /* Student List Page */
 .header-actions {
@@ -235,10 +250,12 @@ button:hover, .button:hover, input[type="submit"]:hover {
 }
 
 .stats {
-    background: #eef5f9;
+    background: #1d0042; /* Changed background color */
     padding: 1.5rem;
     border-radius: 8px;
-    border-left: 5px solid #1D546C;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Added a subtle shadow */
+    animation: fadeInUp 0.8s ease-out; /* Added animation */
+    color: #f0f0f0; /* Ensured text is light and readable */
 }
 
 .filters {
@@ -302,11 +319,12 @@ td a:hover {
 
 /* Student Update Page */
 .student-details {
-    background: #eef5f9;
+    background: #1d0042;
     padding: 1rem;
     border-radius: 8px;
     margin-bottom: 1.5rem;
     border-left: 5px solid #1D546C;
+    color: #ffffff;
 }
 
 .back-link {
@@ -358,7 +376,7 @@ td a:hover {
 footer {
     text-align: center;
     padding: 1.5rem 1rem;
-    background-color: #0C2B4E;
+    background-color: #2e004e;
     color: #f8f9fa;
     margin-top: auto;
 }
@@ -456,9 +474,10 @@ footer p {
 
     .student-table td {
         display: block;
-        text-align: right; /* Align content to the right */
-        padding-left: 50%; /* Create space for the label */
+        text-align: left; /* Align content to the left */
+        padding-left: 10px; /* Align with the label */
         position: relative;
+        padding-right: 10px; /* Add some padding on the right */
         border-bottom: 1px solid #eee;
     }
 

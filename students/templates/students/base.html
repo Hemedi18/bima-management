@@ -17,7 +17,7 @@
                 <ul>
                     <li><a href="{% url 'student_login' %}">Home</a></li>
                     {% if user.is_superuser %}
-                    <li><a href="{% url 'student_dashboard' %}">Admin Dashboard</a></li>
+                    <li><a href="{% url 'student_dashboard' %}">Admin</a></li>
                     <li>
                         <form action="{% url 'logout' %}" method="post" style="display: inline;">
                             {% csrf_token %}<button type="submit" class="nav-logout-button">Logout</button>
