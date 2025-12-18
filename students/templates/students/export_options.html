@@ -1,0 +1,35 @@
+{% extends "admin/base_site.html" %}
+{% block title %}Export Student Data{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <h1>Export Student Data</h1>
+    <p>Please select the format and the data you wish to export.</p>
+
+    <form action="{% url 'export_students' %}" method="post" id="export-form">
+        {% csrf_token %}
+        <fieldset class="module aligned">
+            <h2>Export Options</h2>
+            <div class="form-row">
+                <label for="file_format">File Format:</label>
+                <select name="file_format" id="file_format">
+                    <option value="csv">CSV</option>
+                    <option value="pdf">PDF</option>
+                    <option value="docx">DOCX</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="data_scope">Data to Export:</label>
+                <select name="data_scope" id="data_scope">
+                    <option value="all">All Students</option>
+                    <option value="registered">Registered Only</option>
+                    <option value="unregistered">Unregistered Only</option>
+                </select>
+            </div>
+        </fieldset>
+        <div class="submit-row">
+            <input type="submit" value="Export" class="default" id="export-button">
+        </div>
+    </form>
+</div>
+{% endblock %}

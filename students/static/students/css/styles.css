@@ -1,6 +1,6 @@
 /* General Body Styles */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* Corrected font-family */
     line-height: 1.6;
     background-color: #001b1a;
     color: #e0dddd;
@@ -8,6 +8,41 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
+
+    /* Default theme variables */
+    --primary-bg-color: #ffffff;
+    --secondary-bg-color: #f8f9fa;
+    --primary-text-color: #212529;
+    --secondary-text-color: #6c757d;
+    --accent-color: #C66DAA;
+    --button-bg-color: #007bff;
+    --button-text-color: #ffffff;
+    --link-color: #C66DAA;
+    --input-bg-color: #3f353d;
+    --input-text-color: #ffffff;
+    --border-color: #555;
+}
+
+/* Dark theme variables */
+body.dark-theme {
+    --primary-bg-color: #212529;
+    --secondary-bg-color: #343a40;
+    --primary-text-color: #ffffff;
+    --secondary-text-color: #adb5bd;
+    --accent-color: #ff4081;
+    --button-bg-color: #64b5f6;
+    --button-text-color: #212121;
+    --link-color: #64b5f6;
+    --input-bg-color: #424242;
+    --input-text-color: #e0e0e0;
+    --border-color: #757575;
+}
+
+/* Apply variables */
+body {
+    background-color: var(--primary-bg-color);
+    color: var(--primary-text-color);
+    transition: background-color 0.3s, color 0.3s;
     min-height: 100vh;
 }
 
@@ -16,7 +51,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: #2f0050;
+    background-color: var(--primary-bg-color);
     color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -49,7 +84,7 @@ nav li {
 }
 
 nav a {
-    color: #ffffff;
+    color: var(--primary-text-color);
     text-decoration: none;
     font-weight: 600;
     font-size: 1rem;
@@ -141,7 +176,7 @@ main {
     max-width: 1400px; /* Add a max-width to prevent it from being too wide on very large screens */
     margin: 2rem auto;
     padding: 2rem;
-    background: #1d0042;
+    background: var(--primary-bg-color);
     box-sizing: border-box; /* Ensures padding is included in the width */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -150,9 +185,9 @@ main {
 
 /* Typography */
 h2 {
-    color: #1D546C;
+    color: var(--accent-color);
     margin-bottom: 1rem;
-    border-bottom: 2px solid #1D546C;
+    border-bottom: 2px solid var(--accent-color);
     padding-bottom: 0.5rem;
 }
 
@@ -173,7 +208,7 @@ form {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: #f0f0f0; /* Changed label color to be light */
+    color: var(--primary-text-color); /* Changed label color to be light */
 }
 
 input[type="text"],
@@ -184,12 +219,12 @@ input[type="password"] {
     border-radius: 8px;
     box-sizing: border-box;
     transition: border-color 0.3s, background-color 0.3s; /* Added transition for background */
-    background-color: #3f353d; /* Darker background for inputs */
-    color: #ffffff; /* White text for inputs */
+    background-color: var(--input-bg-color); /* Darker background for inputs */
+    color: var(--input-text-color); /* White text for inputs */
 }
 
 input[type="text"]:focus {
-    border-color: #1D546C;
+    border-color: var(--accent-color);
     outline: none;
     box-shadow: 0 0 5px rgba(29, 84, 108, 0.3);
 }
@@ -212,8 +247,8 @@ input[type="text"]:focus {
 /* Buttons */
 button, .button, input[type="submit"] {
     display: inline-block;
-    background-color: #007bff;
-    color: #ffffff;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
     padding: 0.8rem 1.5rem;
     border: none;
     border-radius: 4px;
@@ -229,7 +264,7 @@ button:hover, .button:hover, input[type="submit"]:hover {
     transform: translateY(-2px);
 }
 .form-control {
-    background-color: #3f353d;
+    background-color: var(--input-bg-color);
     width: 100%;
     padding: 0.8rem;
     border: 1px solid #ccc;
@@ -250,12 +285,12 @@ button:hover, .button:hover, input[type="submit"]:hover {
 }
 
 .stats {
-    background: #1d0042; /* Changed background color */
+    background: var(--secondary-bg-color); /* Changed background color */
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Added a subtle shadow */
     animation: fadeInUp 0.8s ease-out; /* Added animation */
-    color: #f0f0f0; /* Ensured text is light and readable */
+    color: var(--primary-text-color); /* Use theme variable for text color */
 }
 
 .filters {
@@ -265,13 +300,13 @@ button:hover, .button:hover, input[type="submit"]:hover {
 .filters a { 
     margin-right: 1rem;
     text-decoration: none;
-    color: #1D546C;
+    color: var(--accent-color);
     padding: 0.5rem 1rem;
     border-radius: 20px;
     transition: background-color 0.3s, color 0.3s;
 }
 
-.filters a.active, .filters a:hover {
+.filters a.active, .filters a:hover { /* Corrected typo */
     background-color: #1D546C;
     color: white;
 }
@@ -319,7 +354,7 @@ td a:hover {
 
 /* Student Update Page */
 .student-details {
-    background: #0c001d;
+    background: var(--secondary-bg-color);
     padding: .5rem;
     width: 96%;
     border-radius: 8px;
@@ -329,7 +364,7 @@ td a:hover {
 .update-container {
     max-width: 600px;
     width: 98%;
-    margin: 0 auto;
+    margin: 0 auto; /* Corrected typo */
     background-color: #0C2B4E;
     padding: 1rem;
     border-radius: 8px;
@@ -506,4 +541,95 @@ footer p {
         margin-bottom: 0.5rem;
         text-align: center;
     }
+}
+
+/* Export Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1001; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: var(--secondary-bg-color);
+    color: #e0dddd;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 2rem;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: fadeIn 0.5s;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #f0f0f0;
+    border-bottom: none;
+}
+
+.close-button {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-body .form-group {
+    margin-bottom: 1rem;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1002;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+/* Spinner */
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

@@ -1,0 +1,38 @@
+<!-- Export Modal -->
+<div id="export-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Export Options</h2>
+            <span class="close-button">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="export-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="data-scope">Select Data to Export:</label>
+                    <select id="data-scope" name="data_scope" class="form-control">
+                        <option value="all">All Students</option>
+                        <option value="complete">Complete Records (Registered)</option>
+                        <option value="incomplete">Incomplete Records (Unregistered)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="format">Choose Format:</label>
+                    <select id="format" name="format" class="form-control">
+                        <option value="pdf">PDF</option>
+                        <option value="docx">DOCX</option>
+                        <option value="csv">CSV</option>
+                    </select>
+                </div>
+                <button type="submit" class="button">Download</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay" class="loading-overlay">
+    <div class="loading-spinner">
+        <p>Preparing your download, please wait...</p>
+    </div>
+</div>

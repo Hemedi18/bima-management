@@ -4,6 +4,14 @@ from django.db.models import Count, Q
 from .forms import StudentUpdateForm, StudentCreateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import HttpResponse
+import csv
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
+from docx import Document
+from docx.shared import Inches
+
 
 # Create your views here.
 @login_required
@@ -91,3 +99,79 @@ def student_update(request, pk):
         'student': student
     }
     return render(request, 'students/student_update.html', context)
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def export_students(request):
+    # The export is triggered by a GET request from the fetch API
+    data_scope = request.GET.get('data_scope', 'all')
+    file_format = request.GET.get('format', 'csv')
+
+    # Base queryset
+    students_qs = Student.objects.all().order_by('registration_number')
+
+    # Filter based on data scope
+    if data_scope == 'complete':
+        # 'complete' means registered
+        students_qs = students_qs.filter(is_registered=True)
+    elif data_scope == 'incomplete':
+        # 'incomplete' means not registered
+        students_qs = students_qs.filter(is_registered=False)
+
+    # Prepare data
+    headers = ['S/N', 'Registration Number', 'Full Name', 'Phone Number']
+    data = []
+    for i, student in enumerate(students_qs, 1):
+        data.append([
+            i,
+            student.registration_number or '',
+            student.full_name or '',
+            student.phone_number or ''
+        ])
+
+    # Generate file based on format
+    if file_format == 'csv':
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="students.csv"'
+        writer = csv.writer(response)
+        writer.writerow(headers)
+        writer.writerows(data)
+        return response
+
+    elif file_format == 'pdf':
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="students.pdf"'
+        doc = SimpleDocTemplate(response, pagesize=letter)
+        table_data = [headers] + data
+        table = Table(table_data)
+        style = TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black)
+        ])
+        table.setStyle(style)
+        doc.build([table])
+        return response
+
+    elif file_format == 'docx':
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = 'attachment; filename="students.docx"'
+        document = Document()
+        document.add_heading('Student Data', 0)
+        table = document.add_table(rows=1, cols=len(headers))
+        table.style = 'Table Grid'
+        hdr_cells = table.rows[0].cells
+        for i, header in enumerate(headers):
+            hdr_cells[i].text = header
+        for row_data in data:
+            row_cells = table.add_row().cells
+            for i, cell_data in enumerate(row_data):
+                row_cells[i].text = str(cell_data)
+        document.save(response)
+        return response
+
+    return HttpResponse("Invalid format", status=400)

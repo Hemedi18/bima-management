@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Student Management{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'students/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'students/css/styles.css' %}?version=2">
     {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -15,8 +15,15 @@
             {% comment %} <h1>Student Management</h1> {% endcomment %}
             <nav>
                 <ul>
+                    <li>
+                        <button id="theme-toggle" style="background:none; border:none; cursor:pointer; color: var(--primary-text-color);">
+                            <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                            <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon" style="display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                        </button>
+                    </li>
                     <li><a href="{% url 'student_login' %}">Home</a></li>
                     {% if user.is_superuser %}
+                    <li><a id="export-button-nav" href="#">Export</a></li>
                     <li><a href="{% url 'student_dashboard' %}">Admin</a></li>
                     <li>
                         <form action="{% url 'logout' %}" method="post" style="display: inline;">
@@ -49,5 +56,162 @@
         <p>&copy; 2025 Student Management System</p>
     
     </footer>
+    
+    <!-- Export Modal -->
+    <div id="export-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Export Options</h2>
+                <span class="close-button">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="export-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="data-scope">Select Data to Export:</label>
+                        <select id="data-scope" name="data_scope" class="form-control">
+                            <option value="all">All Students</option>
+                            <option value="complete">Complete Records (Registered)</option>
+                            <option value="incomplete">Incomplete Records (Unregistered)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="format">Choose Format:</label>
+                        <select id="format" name="format" class="form-control">
+                            <option value="pdf">PDF</option>
+                            <option value="docx">DOCX</option>
+                            <option value="csv">CSV</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="button">Download</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('export-modal');
+        const exportBtnNav = document.getElementById('export-button-nav');
+        const closeBtn = document.querySelector('.close-button');
+    
+        if (exportBtnNav) {
+            exportBtnNav.onclick = (e) => {
+                e.preventDefault();
+                if (modal) modal.style.display = 'block';
+            };
+        }
+        if (closeBtn) {
+            closeBtn.onclick = () => { if (modal) modal.style.display = 'none'; };
+        }
+
+        // Export form submission logic
+        const exportForm = document.getElementById('export-form');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const notificationDiv = document.getElementById('notification-message');
+
+        // Function to show a temporary notification
+        function showNotification(message, type = 'info') {
+            if (notificationDiv) {
+                notificationDiv.textContent = message;
+                notificationDiv.style.backgroundColor = type === 'error' ? '#dc3545' : '#333'; // Example colors
+                notificationDiv.style.display = 'block';
+                setTimeout(() => { notificationDiv.style.display = 'none'; }, 3000); // Ficha baada ya sekunde 3
+            }
+        }
+
+        if (exportForm) {
+            exportForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                if (loadingOverlay) loadingOverlay.style.display = 'flex';
+
+                const formData = new FormData(this);
+                const dataScope = formData.get('data_scope');
+                const format = formData.get('format');
+                const exportUrl = `{% url 'export_students' %}?data_scope=${dataScope}&format=${format}`;
+
+                fetch(exportUrl)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok.');
+                        }
+                        const disposition = response.headers.get('Content-Disposition');
+                        let filename = 'students.dat';
+                        if (disposition && disposition.indexOf('attachment') !== -1) {
+                            const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            const matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) {
+                                filename = matches[1].replace(/['"]/g, '');
+                            }
+                        }
+                        return response.blob().then(blob => ({ blob, filename }));
+                    })
+                    .then(({ blob, filename }) => {
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.style.display = 'none';
+                        a.href = url;
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        showNotification('Upakuaji wako umeanza!');
+                    })
+                    .catch(error => {
+                        console.error('Download error:', error);
+                        showNotification('Kuna hitilafu imetokea wakati wa upakuaji. Tafadhali angalia console kwa maelezo zaidi na ujaribu tena.', 'error');
+                    })
+                    .finally(() => {
+                        if (loadingOverlay) loadingOverlay.style.display = 'none';
+                        if (modal) modal.style.display = 'none';
+                    });
+            });
+        }
+    });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('theme-icon-sun');
+            const moonIcon = document.getElementById('theme-icon-moon');
+            const body = document.body;
+
+            // Function to set theme
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    body.classList.add('dark-theme');
+                    sunIcon.style.display = 'block';
+                    moonIcon.style.display = 'none';
+                } else {
+                    body.classList.remove('dark-theme');
+                    sunIcon.style.display = 'none';
+                    moonIcon.style.display = 'block';
+                }
+                localStorage.setItem('theme', theme);
+            }
+
+            // Check for saved theme in localStorage or system preference
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else if (prefersDark) {
+                setTheme('dark');
+            }
+
+            // Toggle theme
+            themeToggleBtn.addEventListener('click', () => {
+                if (body.classList.contains('dark-theme')) {
+                    setTheme('light');
+                } else {
+                    setTheme('dark');
+                }
+            });
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
