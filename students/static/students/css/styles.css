@@ -359,17 +359,17 @@ td a:hover {
     width: 96%;
     border-radius: 8px;
     margin-bottom: 1.5rem;
-    color: #ffffff;
+    color: var(--primary-text-color);
 }
 .update-container {
     max-width: 600px;
     width: 98%;
     margin: 0 auto; /* Corrected typo */
-    background-color: #0C2B4E;
+    background-color: var(--secondary-bg-color);
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: #ffffff;
+    color: var(--primary-text-color);
 }
 
 .back-link {
